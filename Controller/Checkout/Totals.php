@@ -60,7 +60,7 @@ class Totals extends \Magento\Framework\App\Action\Action
             'message' => 'Re-calculate successful.'
         ];
         try {
-            $this->quoteRepository->get($this->_checkoutSession->getQuoteId());
+            //$this->quoteRepository->get($this->_checkoutSession->getQuoteId());
             $quote = $this->_checkoutSession->getQuote();
 
             //Trigger to re-calculate totals
