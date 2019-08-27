@@ -18,7 +18,9 @@ define(
         var paymentFeeConfig = $.merge({is_active: false}, window.checkoutConfig.boolfly_payment_fee || {}),
             getTotals = function() {
                 var deferred = $.Deferred();
-                isLoading(false);
+                if (isLoading && typeof isLoading === "function") {
+                    isLoading(false);
+                }
                 getTotalsAction([], deferred);
             };
 
