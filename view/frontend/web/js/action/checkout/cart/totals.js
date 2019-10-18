@@ -15,7 +15,9 @@ define(
     ) {
         'use strict';
 
-        var paymentFeeConfig = $.merge({is_active: false}, window.checkoutConfig.boolfly_payment_fee || {}),
+        // if we have a active boolfly payment fee configuration then pass to the callback below
+        // else we return the getTotalsAction callback
+        var paymentFeeConfig = $.extend({is_active: false}, window.checkoutConfig.boolfly_payment_fee || {}),
             getTotals = function() {
                 var deferred = $.Deferred();
                 if (typeof isLoading === "function") {

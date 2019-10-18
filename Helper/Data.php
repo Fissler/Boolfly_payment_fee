@@ -128,16 +128,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getFee(\Magento\Quote\Model\Quote $quote) {
 
         $method  = $quote->getPayment()->getMethod();
-        $fee     = $this->methodFee[$method]['fee'];
-        $feeType = $this->getFeeType();
 
-        if ($feeType != \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_FIXED) {
-            $subTotal = $quote->getSubtotal();
-            $fee = $subTotal * ($fee / 100);
+        $fee = null;
+
+        if (isset($this->methodFee[$method])) {
+            $fee = $this->methodFee[$method]['fee'];
         }
 
-        // $fee = $this->pricingHelper->currency($fee, false, false);
-        $fee = $this->priceCurrency->round($fee);
+        if ($fee !== null) {
+            $feeType = $this->getFeeType();
+
+            if ($feeType != \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_FIXED) {
+                $subTotal = $quote->getSubtotal();
+                $fee = $subTotal * ($fee / 100);
+            }
+
+            // $fee = $this->pricingHelper->currency($fee, false, false);
+            $fee = $this->priceCurrency->round($fee);
+        }
 
         return $fee;
     }
