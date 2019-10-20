@@ -9,7 +9,7 @@
  * Julian Wundrak - initial contents
  */
 
-namespace Mediaman\FisslerTypo3Config\Plugin\Order;
+namespace Boolfly\PaymentFee\Plugin\Order;
 
 use Magento\Sales\Api\Data\OrderExtensionInterfaceFactory;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -18,11 +18,11 @@ use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 
 /**
- * Class AddShippingAddressPlugin
+ * Class AddPaymentFeePlugin
  *
- * @package Mediaman\FisslerTypo3Config\Plugin\Order
+ * @package Boolfly\PaymentFee\Plugin\Order
  */
-class AddShippingAddressPlugin
+class AddPaymentFeePlugin
 {
     /**
      * @var OrderExtensionInterfaceFactory
@@ -49,7 +49,7 @@ class AddShippingAddressPlugin
     public function afterGetList(OrderRepositoryInterface $subject, OrderSearchResultInterface $results)
     {
         $orders = $results->getItems();
-        $this->addShippingAddressToOrders($orders);
+        $this->addPaymentFeeToOrders($orders);
         return $results;
     }
 
@@ -60,7 +60,7 @@ class AddShippingAddressPlugin
      */
     public function afterGet(OrderRepositoryInterface $subject, OrderInterface $order)
     {
-        $orders = $this->addShippingAddressToOrders([$order]);
+        $orders = $this->addPaymentFeeToOrders([$order]);
         return array_shift($orders);
     }
 
@@ -77,7 +77,7 @@ class AddShippingAddressPlugin
                     $extensionAttributes = $this->extensionAttributesFactory->create();
                 }
                 $extensionAttributes->setFeeAmount($amount);
-                $extensionAttributes->setBaseFeeAmount($order->getBaseFeeAmount();
+                $extensionAttributes->setBaseFeeAmount($order->getBaseFeeAmount());
                 $order->setExtensionAttributes($extensionAttributes);
             }
         }
